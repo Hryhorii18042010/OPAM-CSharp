@@ -8,6 +8,8 @@ namespace Library
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
+            double[] bookPrices = new double[100];
+            int count = 0;
             bool running = true;
 
             while (running)
@@ -30,6 +32,23 @@ namespace Library
                         ShowIssueTable();
                         Pause();
                         break;
+                    case "4":
+                        if (count == bookPrices.Length)
+                        {
+                            Console.WriteLine("Масив заповнений.");
+                        }
+                        else
+                        {
+                            double value = ReadDouble("Вартість доставки, грн: ", 0, 100000);
+                            AddValue(bookPrices, ref count, value);
+                            Console.WriteLine($"Додано запис. Усього: {count}");
+                        }
+                        Pause();
+                        break;
+                    case "5":
+                        PrintValues(bookPrices, count);
+                        Pause();
+                        break;
                     case "0":
                         running = false;
                         Console.WriteLine("Роботу завершено.");
@@ -49,6 +68,8 @@ namespace Library
             Console.WriteLine("1. Довідка про програму");
             Console.WriteLine("2. Вартість доставки книг");
             Console.WriteLine("3. Таблиця видач за жанрами і днями");
+            Console.WriteLine("4. Додати вартість доставки");
+            Console.WriteLine("5. Показати збережені значення");
             Console.WriteLine("0. Вихід");
             Console.Write("Ваш вибір: ");
         }
@@ -200,6 +221,34 @@ namespace Library
                 {
                     return value;
                 }
+            }
+        }
+
+        static void AddValue(double[] values, ref int count, double value)
+        {
+            if (count >= values.Length)
+            {
+                Console.WriteLine("Масив заповнений.");
+                return;
+            }
+
+            values[count] = value;
+            count++;
+        }
+
+        static void PrintValues(double[] values, int count)
+        {
+            if (count == 0)
+            {
+                Console.WriteLine("Значень поки немає.");
+                return;
+            }
+
+            Console.WriteLine($"{"Номер",8}{"Вартість, грн",18}");
+            Console.WriteLine(new string('-', 26));
+            for (int i = 0; i < count; i++)
+            {
+                Console.WriteLine($"{i + 1,8}{values[i],18:F2}");
             }
         }
 

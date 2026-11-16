@@ -29,7 +29,7 @@ namespace Library
                         Pause();
                         break;
                     case "2":
-                        Console.WriteLine("Цей пункт ще не готовий.");
+                        ShowCostTable();
                         Pause();
                         break;
                     case "3":
@@ -62,6 +62,45 @@ namespace Library
             Console.WriteLine("Чи видана зараз — bool");
             Console.WriteLine("Дата видачі — DateTime (для контролю 14 днів)");
             Console.WriteLine("Майбутній підсумок: книги за жанрами і прострочені видачі.");
+        }
+
+        static void ShowCostTable()
+        {
+            Console.WriteLine("Таблиця вартості доставки книг за вагою посилки");
+            Console.Write("Початкова вага, кг: ");
+            bool ok1 = double.TryParse(Console.ReadLine(), out double from);
+            Console.Write("Кінцева вага, кг: ");
+            bool ok2 = double.TryParse(Console.ReadLine(), out double to);
+            Console.Write("Крок, кг: ");
+            bool ok3 = double.TryParse(Console.ReadLine(), out double step);
+
+            if (!ok1 || !ok2 || !ok3 || from <= 0 || to < from || step <= 0)
+            {
+                Console.WriteLine("Неправильні дані. Крок має бути більшим за нуль.");
+                return;
+            }
+
+            double steps = (to - from) / step;
+            if (steps < 7 || steps > 99)
+            {
+                Console.WriteLine("Потрібно від 8 до 100 рядків таблиці.");
+                return;
+            }
+
+            Console.WriteLine();
+            Console.WriteLine($"{"Вага, кг",12}{"Вартість, грн",18}");
+            Console.WriteLine(new string('-', 30));
+
+            for (int i = 0; i <= 99; i++)
+            {
+                double weight = from + i * step;
+                if (weight > to + 0.000001)
+                {
+                    break;
+                }
+                double price = 40 + weight * 25;
+                Console.WriteLine($"{weight,12:F2}{price,18:F2}");
+            }
         }
 
         static void Pause()

@@ -33,7 +33,7 @@ namespace Library
                         Pause();
                         break;
                     case "3":
-                        Console.WriteLine("Цей пункт ще не готовий.");
+                        ShowIssueTable();
                         Pause();
                         break;
                     case "0":
@@ -101,6 +101,58 @@ namespace Library
                 double price = 40 + weight * 25;
                 Console.WriteLine($"{weight,12:F2}{price,18:F2}");
             }
+        }
+
+        static void ShowIssueTable()
+        {
+            Console.WriteLine("Демонстраційна таблиця видач книг");
+            Console.Write("Кількість жанрів (1-10): ");
+            bool ok1 = int.TryParse(Console.ReadLine(), out int rows);
+            Console.Write("Кількість днів (1-7): ");
+            bool ok2 = int.TryParse(Console.ReadLine(), out int columns);
+
+            if (!ok1 || !ok2 || rows < 1 || rows > 10 || columns < 1 || columns > 7)
+            {
+                Console.WriteLine("Неправильна кількість жанрів або днів.");
+                return;
+            }
+
+            string[] genres = { "Роман", "Поезія", "Казка", "Наука", "Історія", "Детектив", "Фентезі", "Довідник", "Драма", "Біографія" };
+
+            Console.WriteLine();
+            Console.Write($"{"Жанр / день",-14}");
+            for (int j = 1; j <= columns; j++)
+            {
+                Console.Write($"{j,8}");
+            }
+            Console.WriteLine($"{"Разом",10}");
+
+            int all = 0;
+            for (int i = 0; i < rows; i++)
+            {
+                Console.Write($"{genres[i],-14}");
+                int rowSum = 0;
+                for (int j = 1; j <= columns; j++)
+                {
+                    int books = (i + 1) * j;
+                    Console.Write($"{books,8}");
+                    rowSum += books;
+                }
+                Console.WriteLine($"{rowSum,10}");
+                all += rowSum;
+            }
+
+            Console.Write($"{"Разом",-14}");
+            for (int j = 1; j <= columns; j++)
+            {
+                int columnSum = 0;
+                for (int i = 0; i < rows; i++)
+                {
+                    columnSum += (i + 1) * j;
+                }
+                Console.Write($"{columnSum,8}");
+            }
+            Console.WriteLine($"{all,10}");
         }
 
         static void Pause()

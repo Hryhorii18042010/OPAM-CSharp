@@ -72,18 +72,9 @@ namespace Library
         static void ShowCostTable()
         {
             Console.WriteLine("Таблиця вартості доставки книг за вагою посилки");
-            Console.Write("Початкова вага, кг: ");
-            bool ok1 = double.TryParse(Console.ReadLine(), out double from);
-            Console.Write("Кінцева вага, кг: ");
-            bool ok2 = double.TryParse(Console.ReadLine(), out double to);
-            Console.Write("Крок, кг: ");
-            bool ok3 = double.TryParse(Console.ReadLine(), out double step);
-
-            if (!ok1 || !ok2 || !ok3 || from <= 0 || to < from || step <= 0)
-            {
-                Console.WriteLine("Неправильні дані. Крок має бути більшим за нуль.");
-                return;
-            }
+            double from = ReadDouble("Початкова вага, кг: ", 0.01, 10000);
+            double to = ReadDouble("Кінцева вага, кг: ", from, 10000);
+            double step = ReadDouble("Крок, кг: ", 0.000001, 10000);
 
             double steps = (to - from) / step;
             if (steps < 7 || steps > 99)
@@ -122,16 +113,8 @@ namespace Library
         static void ShowIssueTable()
         {
             Console.WriteLine("Демонстраційна таблиця видач книг");
-            Console.Write("Кількість жанрів (1-10): ");
-            bool ok1 = int.TryParse(Console.ReadLine(), out int rows);
-            Console.Write("Кількість днів (1-7): ");
-            bool ok2 = int.TryParse(Console.ReadLine(), out int columns);
-
-            if (!ok1 || !ok2 || rows < 1 || rows > 10 || columns < 1 || columns > 7)
-            {
-                Console.WriteLine("Неправильна кількість жанрів або днів.");
-                return;
-            }
+            int rows = ReadInt("Кількість жанрів (1-10): ", 1, 10);
+            int columns = ReadInt("Кількість днів (1-7): ", 1, 7);
 
             string[] genres = { "Роман", "Поезія", "Казка", "Наука", "Історія", "Детектив", "Фентезі", "Довідник", "Драма", "Біографія" };
 
@@ -150,7 +133,7 @@ namespace Library
                 int rowSum = 0;
                 for (int j = 1; j <= columns; j++)
                 {
-                    int books = (i + 1) * j;
+                    int books = CalculateIssueCount(i + 1, j);
                     Console.Write($"{books,8}");
                     rowSum += books;
                 }
@@ -164,11 +147,60 @@ namespace Library
                 int columnSum = 0;
                 for (int i = 0; i < rows; i++)
                 {
-                    columnSum += (i + 1) * j;
+                    columnSum += CalculateIssueCount(i + 1, j);
                 }
                 Console.Write($"{columnSum,8}");
             }
             Console.WriteLine($"{all,10}");
+        }
+
+        static int CalculateIssueCount(int genreNumber, int day)
+        {
+            return genreNumber * day;
+        }
+
+        static double ReadDouble(string prompt, double min, double max)
+        {
+            while (true)
+            {
+                Console.Write(prompt);
+                string input = Console.ReadLine() ?? "";
+
+                if (!double.TryParse(input, out double value))
+                {
+                    Console.WriteLine("Помилка: введіть число.");
+                }
+                else if (value < min || value > max || double.IsNaN(value))
+                {
+                    Console.WriteLine($"Помилка: число має бути від {min} до {max}.");
+                }
+                else
+                {
+                    return value;
+                }
+            }
+        }
+
+        static int ReadInt(string prompt, int min, int max)
+        {
+            while (true)
+            {
+                Console.Write(prompt);
+                string input = Console.ReadLine() ?? "";
+
+                if (!int.TryParse(input, out int value))
+                {
+                    Console.WriteLine("Помилка: введіть ціле число.");
+                }
+                else if (value < min || value > max)
+                {
+                    Console.WriteLine($"Помилка: число має бути від {min} до {max}.");
+                }
+                else
+                {
+                    return value;
+                }
+            }
         }
 
         static void Pause()

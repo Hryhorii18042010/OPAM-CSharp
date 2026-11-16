@@ -49,6 +49,29 @@ namespace Library
                         PrintValues(bookPrices, count);
                         Pause();
                         break;
+                    case "6":
+                        FindMax(bookPrices, count, out double max, out int number);
+                        if (number == -1)
+                        {
+                            Console.WriteLine("Масив порожній, найбільшого значення немає.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Найбільша вартість: {max:F2} грн, номер: {number}");
+                        }
+                        Pause();
+                        break;
+                    case "8":
+                        int oldNumber = 10;
+                        double[] example = { 10, 20 };
+                        Console.WriteLine($"Число до виклику: {oldNumber}");
+                        ChangeNumber(oldNumber);
+                        Console.WriteLine($"Число після виклику: {oldNumber}");
+                        Console.WriteLine($"Масив до виклику: {example[0]}");
+                        ChangeFirst(example);
+                        Console.WriteLine($"Масив після виклику: {example[0]}");
+                        Pause();
+                        break;
                     case "0":
                         running = false;
                         Console.WriteLine("Роботу завершено.");
@@ -70,6 +93,8 @@ namespace Library
             Console.WriteLine("3. Таблиця видач за жанрами і днями");
             Console.WriteLine("4. Додати вартість доставки");
             Console.WriteLine("5. Показати збережені значення");
+            Console.WriteLine("6. Показати найбільшу вартість");
+            Console.WriteLine("8. Дослід зі значенням і масивом");
             Console.WriteLine("0. Вихід");
             Console.Write("Ваш вибір: ");
         }
@@ -250,6 +275,37 @@ namespace Library
             {
                 Console.WriteLine($"{i + 1,8}{values[i],18:F2}");
             }
+        }
+
+        static void FindMax(double[] values, int count, out double max, out int number)
+        {
+            max = 0;
+            number = -1;
+            if (count == 0)
+            {
+                return;
+            }
+
+            max = values[0];
+            number = 1;
+            for (int i = 1; i < count; i++)
+            {
+                if (values[i] > max)
+                {
+                    max = values[i];
+                    number = i + 1;
+                }
+            }
+        }
+
+        static void ChangeNumber(int number)
+        {
+            number = number + 100;
+        }
+
+        static void ChangeFirst(double[] values)
+        {
+            values[0] = values[0] + 100;
         }
 
         static void Pause()

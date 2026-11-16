@@ -92,6 +92,16 @@ namespace Library
                 return;
             }
 
+            PrintCostTable(from, to, step);
+        }
+
+        static double CalculateDeliveryCost(double weight, double rate, double basePrice)
+        {
+            return basePrice + weight * rate;
+        }
+
+        static void PrintCostTable(double from, double to, double step)
+        {
             Console.WriteLine();
             Console.WriteLine($"{"Вага, кг",12}{"Вартість, грн",18}");
             Console.WriteLine(new string('-', 30));
@@ -103,7 +113,8 @@ namespace Library
                 {
                     break;
                 }
-                double price = 40 + weight * 25;
+
+                double price = CalculateDeliveryCost(weight, 25, 40);
                 Console.WriteLine($"{weight,12:F2}{price,18:F2}");
             }
         }

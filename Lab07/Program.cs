@@ -12,13 +12,7 @@ namespace Library
 
             while (running)
             {
-                Console.WriteLine();
-                Console.WriteLine("=== Бібліотека ===");
-                Console.WriteLine("1. Довідка про програму");
-                Console.WriteLine("2. Вартість доставки книг");
-                Console.WriteLine("3. Таблиця видач за жанрами і днями");
-                Console.WriteLine("0. Вихід");
-                Console.Write("Ваш вибір: ");
+                ShowMenu();
                 string choice = Console.ReadLine() ?? "";
                 Console.WriteLine();
 
@@ -46,6 +40,17 @@ namespace Library
                         break;
                 }
             }
+        }
+
+        static void ShowMenu()
+        {
+            Console.WriteLine();
+            Console.WriteLine("=== Бібліотека ===");
+            Console.WriteLine("1. Довідка про програму");
+            Console.WriteLine("2. Вартість доставки книг");
+            Console.WriteLine("3. Таблиця видач за жанрами і днями");
+            Console.WriteLine("0. Вихід");
+            Console.Write("Ваш вибір: ");
         }
 
         static void ShowAbout()

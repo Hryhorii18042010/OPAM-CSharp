@@ -61,6 +61,11 @@ namespace Library
                         }
                         Pause();
                         break;
+                    case "7":
+                        int position = ReadInt("Номер для видалення (1-100): ", 1, 100);
+                        RemoveAt(bookPrices, ref count, position - 1);
+                        Pause();
+                        break;
                     case "8":
                         int oldNumber = 10;
                         double[] example = { 10, 20 };
@@ -94,6 +99,7 @@ namespace Library
             Console.WriteLine("4. Додати вартість доставки");
             Console.WriteLine("5. Показати збережені значення");
             Console.WriteLine("6. Показати найбільшу вартість");
+            Console.WriteLine("7. Видалити значення за номером");
             Console.WriteLine("8. Дослід зі значенням і масивом");
             Console.WriteLine("0. Вихід");
             Console.Write("Ваш вибір: ");
@@ -306,6 +312,23 @@ namespace Library
         static void ChangeFirst(double[] values)
         {
             values[0] = values[0] + 100;
+        }
+
+        static void RemoveAt(double[] values, ref int count, int index)
+        {
+            if (index < 0 || index >= count)
+            {
+                Console.WriteLine("Неправильний номер. Нічого не видалено.");
+                return;
+            }
+
+            for (int i = index; i < count - 1; i++)
+            {
+                values[i] = values[i + 1];
+            }
+            count--;
+            values[count] = 0;
+            Console.WriteLine("Значення видалено.");
         }
 
         static void Pause()
